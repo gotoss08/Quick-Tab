@@ -101,7 +101,14 @@ Tab.prototype.switchTo = function()
     window.close();
 };
 
-Tab.prototype.centerView = function()
+Tab.prototype.scrollIntoView = function(center=true)
 {
-    window.scrollTo(0, this.view.offsetTop - (window.innerHeight / 2) + (this.view.offsetHeight / 2));
-};
+    if (center) {
+        window.scrollTo(0, this.view.offsetTop - (window.innerHeight / 2) + (this.view.offsetHeight / 2));
+    } else {
+        if (this.view.offsetTop < window.pageYOffset)
+            window.scrollTo(0, this.view.offsetTop);
+        if (this.view.offsetTop + this.view.offsetHeight > window.pageYOffset + window.innerHeight)
+            window.scrollTo(0, this.view.offsetTop - window.innerHeight + this.view.offsetHeight);
+    }
+}

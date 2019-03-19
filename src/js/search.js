@@ -21,16 +21,16 @@ Search.prototype.clear = function(tabArray)
     this.searchClearReference.classList.add('hidden');
 
     var activeTab = null;
-    
+
     //Show all tabs and find active
     for(var i=0; i<tabArray.length; i++) {
         var tab = tabArray[i];
-        if (tab.active) activeTab = tab;
         tab.visible(true);
+        if (tab.active) activeTab = tab;
     }
 
-    // center tabs lsit on active tab
-    activeTab.centerView();
+    //Center tabs list on active tab
+    if (activeTab != null) this.delegate.centerOnTab(activeTab);
 
     //Hide the no tabs matched notice
     this.noTabsReference.classList.add('hidden');

@@ -57,15 +57,20 @@ Manager.prototype.generateList = function()
 		}
 
         // scroll tabs list to active tab
-        if (activeTab != null) activeTab.centerView();
-        // if (activeTab != null) {
-        //     var view = activeTab.view;
-        //     window.scrollTo(0, view.offsetTop - (window.innerHeight / 2) + (view.offsetHeight / 2));
-        // }
+        if (activeTab != null) this.centerOnTab(activeTab)
     }.bind(this));
 
 	return tabArray;
 };
+
+Manager.prototype.centerOnTab = function(tab)
+{
+    console.log('centering on tab: ', tab.title);
+    tab.scrollIntoView();
+    this.tabLock = false;
+    this.setSelectedTab(tab.id);
+    this.updateSelectedTab();
+}
 
 Manager.prototype.setSelectedTab = function(tabId)
 {
@@ -107,6 +112,11 @@ Manager.prototype.moveSelectedTab = function(down)
     } else {
         this.selectedTab = visibleTabs[Math.max(0, currentTab-1)];
     }
+
+    // scroll to selected tab if its off-window
+    this.tabArray[this.selectedTab].scrollIntoView(false);
+    // scroll to top of window(to show search box) if first tab selected
+    if (!down && this.selectedTab == 0) window.scrollTo(0, 0);
 
     this.updateViewOffset();
     this.updateSelectedTab();
