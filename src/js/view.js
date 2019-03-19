@@ -10,8 +10,45 @@ function Manager()
     this.selectedTab = -1;
 
     this.tabLock = false;
+    this.movementMode = false; //Used for determining if user dragging list or wants to open tab
 
     this.help.show();
+
+    //Mouse drag movement
+    var dragStarted = false;
+    var currentY;
+    var offsetY;
+
+    this.tabReference.addEventListener('mousedown', function(e) {
+        currentY = e.clientY;
+        dragStarted = true;
+    }.bind(this));
+
+    this.tabReference.addEventListener('mouseup', function(e) {
+        dragStarted = false;
+        this.movementMode = false;
+    }.bind(this));
+
+    this.tabReference.addEventListener('mousemove', function(e) {
+        if (dragStarted) {
+            e.preventDefault();
+
+            this.movementMode = true;
+
+            offsetY = e.clientY - currentY;
+            currentY = e.clientY;
+
+            window.scrollTo(0, window.pageYOffset - offsetY);
+        }
+    }.bind(this));
+
+    //Catch keypress and focus input if not focused
+    window.addEventListener('keydown', function(e) {
+        if (this.search.searchInputReference !== document.activeElement && this.search.isValidSearchChar(e)) {
+            this.search.searchInputReference.focus();
+            this.search.searchInputKeyup(e, this.tabArray);
+        }
+    }.bind(this));
 
     // Block up and down arrows in search box to prevent repositioning of carret to beginning/end
     this.search.searchInputReference.addEventListener('keydown', function(e) {

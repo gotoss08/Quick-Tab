@@ -45,17 +45,18 @@ Tab.prototype.buildView = function()
     view.appendChild(favView);
     view.appendChild(titleView);
 
-    view.addEventListener('mousedown', function(e) {
-
-        switch(e.which) {
-            case 1:
-                //Left click, switch to the tab
-                this.switchTo();
-                break;
-            case 3:
-                //Right click, close the tab
-                this.close();
-                break;
+    view.addEventListener('mouseup', function(e) {
+        if (!this.manager.movementMode) {
+            switch(e.which) {
+                case 1:
+                    //Left click, switch to the tab
+                    this.switchTo();
+                    break;
+                case 3:
+                    //Right click, close the tab
+                    this.close();
+                    break;
+            }
         }
     }.bind(this));
 
