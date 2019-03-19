@@ -65,7 +65,7 @@ Tab.prototype.buildView = function()
     }.bind(this));
 
     view.addEventListener('mouseout', function(e) {
-        this.manager.resetSelectedTab();
+        this.manager.setSelectedTab(this.manager.tabArray[this.manager.activeTab].id); // select active tab instead of nothing
         this.manager.updateSelectedTab();
     }.bind(this));
 
