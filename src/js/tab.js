@@ -86,7 +86,7 @@ Tab.prototype.close = function()
 {
 	var array = this.manager.tabArray;
 	var index = array.indexOf(this);
-	if(index > -1){
+	if(index > -1) {
 		array.splice(index, 1);
 	}
 	

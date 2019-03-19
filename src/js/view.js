@@ -82,7 +82,8 @@ Manager.prototype.setSelectedTab = function(tabId)
     }
 };
 
-Manager.prototype.resetSelectedTab = function() {
+Manager.prototype.resetSelectedTab = function()
+{
     if (!this.tabLock) {
         this.selectedTab = -1;
     }
@@ -141,7 +142,6 @@ Manager.prototype.updateSelectedTab = function()
     }
 };
 
-
 Manager.prototype.switchToSelectedTab = function()
 {
     this.tabArray[this.selectedTab].switchTo();
@@ -187,7 +187,6 @@ window.onload = function()
                 window.close();
                 break;
         }
-
     };
 
     if (typeof localStorage['popup.width'] == 'undefined') {
