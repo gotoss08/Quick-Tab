@@ -6,6 +6,7 @@ function Manager()
     this.tabReference = document.querySelector('#tabs');
     this.tabArray = this.generateList();
 
+    this.activeTab = -1;
     this.selectedTab = -1;
 
     this.tabLock = false;
@@ -41,14 +42,12 @@ Manager.prototype.generateList = function()
 {
 	var tabArray = [];
 	chrome.tabs.query({}, function(tabs) {
-        var activeTab = null;
-
 		for(var i=0; i<tabs.length; i++) {
             //Create an object for each tab
             var tab = new Tab(tabs[i].id, tabs[i].windowId, tabs[i].title, tabs[i].url, tabs[i].active, tabs[i].favIconUrl, this);
 
             // remember current active tab
-            if(tab.active) activeTab = tab;
+            if(tab.active) this.activeTab = i;
 
             //Add the object to the tab array
 			tabArray.push(tab);
@@ -57,14 +56,15 @@ Manager.prototype.generateList = function()
 		}
 
         // scroll tabs list to active tab
-        if (activeTab != null) this.centerOnTab(activeTab)
+        if (this.activeTab != -1) this.centerOnTab(this.activeTab)
     }.bind(this));
 
 	return tabArray;
 };
 
-Manager.prototype.centerOnTab = function(tab)
+Manager.prototype.centerOnTab = function(tabId)
 {
+    var tab = this.tabArray[tabId];
     console.log('centering on tab: ', tab.title);
     tab.scrollIntoView();
     this.tabLock = false;
