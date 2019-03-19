@@ -99,6 +99,11 @@ body
 	cursor: pointer;
 }
 
+.tabActive
+{
+	background: #e7ffe4;
+}
+
 .tabSelected
 {
 	background: #e4f1ff;

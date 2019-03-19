@@ -1,4 +1,4 @@
-function Tab(id, windowId, title, url, favIcon, manager)
+function Tab(id, windowId, title, url, active, favIcon, manager)
 {
     //If there is no favicon for the page use the "blank" one
     if (
@@ -14,6 +14,7 @@ function Tab(id, windowId, title, url, favIcon, manager)
     this.windowId = windowId;
     this.title = title;
     this.url = url;
+    this.active = active;
     this.favIcon = favIcon;
     this.manager = manager;
     this.isVisible = true;
@@ -35,6 +36,12 @@ Tab.prototype.buildView = function()
 
     var view = document.createElement('div');
     view.className = 'tab';
+
+    // if tab is active
+    if (this.active) {
+        view.className += ' tabActive';
+    }
+
     view.appendChild(favView);
     view.appendChild(titleView);
 
@@ -92,4 +99,9 @@ Tab.prototype.switchTo = function()
     chrome.tabs.update(this.id, {selected: true});
     chrome.windows.update(this.windowId, {focused:true});
     window.close();
+};
+
+Tab.prototype.centerView = function()
+{
+    window.scrollTo(0, this.view.offsetTop - (window.innerHeight / 2) + (this.view.offsetHeight / 2));
 };

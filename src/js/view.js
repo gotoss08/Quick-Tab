@@ -5,6 +5,7 @@ function Manager()
 
     this.tabReference = document.querySelector('#tabs');
     this.tabArray = this.generateList();
+
     this.selectedTab = -1;
 
     this.tabLock = false;
@@ -40,14 +41,27 @@ Manager.prototype.generateList = function()
 {
 	var tabArray = [];
 	chrome.tabs.query({}, function(tabs) {
+        var activeTab = null;
+
 		for(var i=0; i<tabs.length; i++) {
             //Create an object for each tab
-            var tab = new Tab(tabs[i].id, tabs[i].windowId, tabs[i].title, tabs[i].url, tabs[i].favIconUrl, this);
-			//Add the object to the tab array
+            var tab = new Tab(tabs[i].id, tabs[i].windowId, tabs[i].title, tabs[i].url, tabs[i].active, tabs[i].favIconUrl, this);
+
+            // remember current active tab
+            if(tab.active) activeTab = tab;
+
+            //Add the object to the tab array
 			tabArray.push(tab);
 			//Add to the tabs view
 			this.tabReference.appendChild(tab.view);
 		}
+
+        // scroll tabs list to active tab
+        if (activeTab != null) activeTab.centerView();
+        // if (activeTab != null) {
+        //     var view = activeTab.view;
+        //     window.scrollTo(0, view.offsetTop - (window.innerHeight / 2) + (view.offsetHeight / 2));
+        // }
     }.bind(this));
 
 	return tabArray;

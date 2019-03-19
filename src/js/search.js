@@ -19,9 +19,19 @@ Search.prototype.clear = function(tabArray)
 
     //Hide the clear button
     this.searchClearReference.classList.add('hidden');
-    //Show all tabs
-    for(var i=0; i<tabArray.length; i++)
-        tabArray[i].visible(true);
+
+    var activeTab = null;
+    
+    //Show all tabs and find active
+    for(var i=0; i<tabArray.length; i++) {
+        var tab = tabArray[i];
+        if (tab.active) activeTab = tab;
+        tab.visible(true);
+    }
+
+    // center tabs lsit on active tab
+    activeTab.centerView();
+
     //Hide the no tabs matched notice
     this.noTabsReference.classList.add('hidden');
 };
