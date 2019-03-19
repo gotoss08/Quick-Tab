@@ -70,6 +70,7 @@ Manager.prototype.centerOnTab = function(tab)
     this.tabLock = false;
     this.setSelectedTab(tab.id);
     this.updateSelectedTab();
+    this.tabLock = true;
 }
 
 Manager.prototype.setSelectedTab = function(tabId)
